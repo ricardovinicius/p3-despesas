@@ -4,17 +4,15 @@ import { useUiStore } from "@/stores/ui";
 export default {
   setup() {
     const uiStore = useUiStore();
-    const isDrawerOpen = uiStore.drawer;
 
-    return { isDrawerOpen };
+    return { uiStore };
   },
 };
 </script>
 
 <template>
-  <p>{{ isDrawerOpen }}</p>
-  <v-navigation-drawer v-model="isDrawerOpen">
-    <v-list-item class="text-center" title="Logo" lines="three"></v-list-item>
+  <v-navigation-drawer :rail="uiStore.isDrawerOpen">
+    <v-list-item class="text-center" title="Logo" lines="two"></v-list-item>
     <v-divider></v-divider>
     <v-list-item
       prepend-icon="mdi-account-multiple"
