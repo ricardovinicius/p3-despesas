@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="font-weight-bold text-3xl text-center">FinanSys</h1>
+    <h1 class="font-weight-bold text-3xl text-center">Cadastro de Usuário - FinanSys</h1>
 
     <v-card
       class="mx-auto pa-12 pb-8"
@@ -8,27 +8,27 @@
       max-width="448"
       rounded="lg"
     >
-      <div class="text-subtitle-1 text-medium-emphasis">Conta</div>
+      <div class="text-subtitle-1 text-medium-emphasis">Informações Básicas</div>
 
+      <!-- Nome Completo -->
+      <v-text-field
+        density="compact"
+        placeholder="Nome completo"
+        prepend-inner-icon="mdi-account"
+        variant="outlined"
+        v-model="fullName"
+      ></v-text-field>
+
+      <!-- Endereço de Email -->
       <v-text-field
         density="compact"
         placeholder="Endereço de email"
         prepend-inner-icon="mdi-email-outline"
         variant="outlined"
+        v-model="email"
       ></v-text-field>
 
-      <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
-        Senha
-
-        <a
-          class="text-caption text-decoration-none text-blue"
-          href="#"
-          rel="noopener noreferrer"
-          target="_blank"
-        >
-          Esqueceu a senha?</a>
-      </div>
-
+      <!-- Senha -->
       <v-text-field
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
         :type="visible ? 'text' : 'password'"
@@ -36,9 +36,11 @@
         placeholder="Digite sua senha"
         prepend-inner-icon="mdi-lock-outline"
         variant="outlined"
+        v-model="password"
         @click:append-inner="visible = !visible"
       ></v-text-field>
 
+      <!-- Botão de Cadastro -->
       <v-btn
         class="mb-8"
         color="blue"
@@ -47,18 +49,18 @@
         block
         @click="submitForm"
       >
-        Entrar
+        Cadastrar
       </v-btn>
 
+      <!-- Link para Login -->
       <v-card-text class="text-center">
         <a
           class="text-blue text-decoration-none"
           href="#"
-          @click.prevent="goToSignup"
           rel="noopener noreferrer"
-          target="_blank"
+          @click="goToLogin"
         >
-          Cadastre-se agora <v-icon icon="mdi-chevron-right"></v-icon>
+          Já tem uma conta? Entrar <v-icon icon="mdi-chevron-right"></v-icon>
         </a>
       </v-card-text>
     </v-card>
@@ -69,6 +71,7 @@
 export default {
   data() {
     return {
+      fullName: '',
       email: '',
       password: '',
       visible: false,
@@ -76,10 +79,12 @@ export default {
   },
   methods: {
     submitForm() {
-      this.$router.push('/new');
+      // Adicionar a lógica de envio de cadastro aqui
+      console.log('Cadastro enviado:', this.fullName, this.email, this.password);
+      this.$router.push('/new'); // Redirecionar após cadastro
     },
-    goToSignup() {
-      this.$router.push('/signup'); // Corrigido: rota e nome do método
+    goToLogin() {
+      this.$router.push('/login'); // Redireciona para a página de login
     },
   },
 }
