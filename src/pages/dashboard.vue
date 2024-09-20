@@ -1,8 +1,16 @@
 <template>
   <v-container class="pa-8" fluid>
-    <v-row>
-      <v-col>
+    <v-row align="center">
+      <v-col cols="9">
         <p class="text-h4">Dashboard</p>
+      </v-col>
+      <v-col cols="3">
+        <v-select
+          label=""
+          :items="['Atual', 'Janeiro', 'Fevereiro', 'Março', 'Abril', '...']"
+          v-model="current_item"
+          density="comfortable"
+        ></v-select>
       </v-col>
     </v-row>
     <v-row>
@@ -114,6 +122,7 @@ export default {
     fill: false,
     type: "trend",
     autoLineWidth: false,
+    current_item: "Atual",
   }),
 };
 </script>
