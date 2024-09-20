@@ -37,8 +37,13 @@
         </v-form>
         <template v-slot:actions>
           <v-btn
+            color="green"
+            text="Adicionar"
+            @click="isActive.value = false"
+          ></v-btn>
+          <v-btn
             class="ml-auto"
-            text="Close"
+            text="Cancelar"
             @click="isActive.value = false"
           ></v-btn>
         </template>

@@ -17,23 +17,20 @@ export default {
     permanent
     :elevation="1"
   >
-    <v-list-item class="text-center" title="Logo" lines="two"></v-list-item>
+    <v-list-item class="text-center" title="FinanSys" lines="two"></v-list-item>
     <v-divider></v-divider>
     <v-list>
       <v-list-item
         prepend-icon="mdi-view-dashboard"
         link
+        to="/dashboard"
         title="Dashboard"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-history"
         link
+        to="/history"
         title="Histórico"
-      ></v-list-item>
-      <v-list-item
-        prepend-icon="mdi-bullseye-arrow"
-        link
-        title="Metas"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-cog"

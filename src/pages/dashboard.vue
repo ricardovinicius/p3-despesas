@@ -1,6 +1,4 @@
 <template>
-  <Sidebar />
-  <Navbar />
   <v-container class="pa-8" fluid>
     <v-row>
       <v-col>

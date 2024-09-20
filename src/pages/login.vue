@@ -17,7 +17,9 @@
         variant="outlined"
       ></v-text-field>
 
-      <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
+      <div
+        class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between"
+      >
         Senha
 
         <a
@@ -26,7 +28,8 @@
           rel="noopener noreferrer"
           target="_blank"
         >
-          Esqueceu a senha?</a>
+          Esqueceu a senha?</a
+        >
       </div>
 
       <v-text-field
@@ -69,18 +72,18 @@
 export default {
   data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       visible: false,
-    }
+    };
   },
   methods: {
     submitForm() {
-      this.$router.push('/new');
+      this.$router.push("/dashboard");
     },
     goToSignup() {
-      this.$router.push('/signup'); // Corrigido: rota e nome do método
+      this.$router.push("/signup"); // Corrigido: rota e nome do método
     },
   },
-}
+};
 </script>
