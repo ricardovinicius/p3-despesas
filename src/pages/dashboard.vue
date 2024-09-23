@@ -1,16 +1,24 @@
 <template>
   <v-container class="pa-8" fluid>
-    <v-row align="center">
+    <v-row>
       <v-col cols="9">
         <p class="text-h4">Dashboard</p>
       </v-col>
-      <v-col cols="3">
+      <v-col cols="2">
         <v-select
           label=""
           :items="['Atual', 'Janeiro', 'Fevereiro', 'Março', 'Abril', '...']"
           v-model="current_item"
           density="comfortable"
         ></v-select>
+      </v-col>
+      <v-col cols="1">
+        <v-btn id="list-export-activator" icon="mdi-chevron-down"></v-btn>
+        <v-menu activator="#list-export-activator">
+          <v-list>
+            <v-list-item value="export">Exportar relatório</v-list-item>
+          </v-list>
+        </v-menu>
       </v-col>
     </v-row>
     <v-row>
@@ -68,6 +76,28 @@
               auto-draw
             ></v-sparkline>
           </v-container>
+        </v-card>
+      </v-col>
+      <v-col class="fill-height">
+        <v-card>
+          <v-card-title>Gasto por categoria</v-card-title>
+          <v-list class="mx-4">
+            <v-list-item
+              title="Alimentação"
+              subtitle="R$ 4200.00"
+              prepend-icon="mdi-food"
+            ></v-list-item>
+            <v-list-item
+              title="Alimentação"
+              subtitle="R$ 4200.00"
+              prepend-icon="mdi-food"
+            ></v-list-item>
+            <v-list-item
+              title="Alimentação"
+              subtitle="R$ 4200.00"
+              prepend-icon="mdi-food"
+            ></v-list-item>
+          </v-list>
         </v-card>
       </v-col>
     </v-row>

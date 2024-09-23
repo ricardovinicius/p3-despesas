@@ -1,6 +1,13 @@
 <template>
   <v-container class="pa-8" fluid>
-    <v-data-table :items="items"></v-data-table>
+    <v-row>
+      <v-col cols="9">
+        <p class="text-h4">Histórico</p>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-data-table :items="items"></v-data-table>
+    </v-row>
   </v-container>
 </template>
 

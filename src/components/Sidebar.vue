@@ -33,6 +33,12 @@ export default {
         title="Histórico"
       ></v-list-item>
       <v-list-item
+        prepend-icon="mdi-bullseye-arrow"
+        link
+        to="/goals"
+        title="Metas"
+      ></v-list-item>
+      <v-list-item
         prepend-icon="mdi-cog"
         link
         title="Configurações"
