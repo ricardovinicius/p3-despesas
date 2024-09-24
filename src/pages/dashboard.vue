@@ -4,15 +4,14 @@
       <v-col cols="9">
         <p class="text-h4">Dashboard</p>
       </v-col>
-      <v-col cols="2">
+      <v-col class="d-flex justify-end" cols="3">
         <v-select
           label=""
           :items="['Atual', 'Janeiro', 'Fevereiro', 'Março', 'Abril', '...']"
           v-model="current_item"
           density="comfortable"
+          class="mr-4"
         ></v-select>
-      </v-col>
-      <v-col cols="1">
         <v-btn id="list-export-activator" icon="mdi-chevron-down"></v-btn>
         <v-menu activator="#list-export-activator">
           <v-list>
@@ -45,21 +44,109 @@
       <v-col>
         <v-card color="green" class="fill-height d-flex flex-column">
           <v-card-title>Entradas </v-card-title>
-          <v-spacer></v-spacer>
-          <v-card-text class="text-h6">R$ 4.200,00</v-card-text>
+          <v-card-text>
+            <p class="text-h6 text-bold">R$ 4.200,00</p>
+            <p class="mt-4 font-weight-bold mb-2">Entradas Recentes:</p>
+            <v-card variant="tonal" class="my-2">
+              <v-card-text class="pa-2">
+                <div class="d-flex align-center">
+                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
+                  <div>
+                    <p>Teste</p>
+                    <p>R$ 4200.00</p>
+                  </div>
+                  <div class="ml-auto">
+                    <p>20/09/2024</p>
+                  </div>
+                </div>
+              </v-card-text>
+            </v-card>
+            <v-card variant="tonal" class="my-2">
+              <v-card-text class="pa-2">
+                <div class="d-flex align-center">
+                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
+                  <div>
+                    <p>Teste</p>
+                    <p>R$ 4200.00</p>
+                  </div>
+                  <div class="ml-auto">
+                    <p>20/09/2024</p>
+                  </div>
+                </div>
+              </v-card-text>
+            </v-card>
+            <v-card variant="tonal" class="my-2">
+              <v-card-text class="pa-2">
+                <div class="d-flex align-center">
+                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
+                  <div>
+                    <p>Teste</p>
+                    <p>R$ 4200.00</p>
+                  </div>
+                  <div class="ml-auto">
+                    <p>20/09/2024</p>
+                  </div>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-card-text>
         </v-card>
       </v-col>
       <v-col>
         <v-card color="red" class="fill-height d-flex flex-column">
           <v-card-title>Saídas </v-card-title>
-          <v-spacer></v-spacer>
-          <v-card-text class="text-h6">R$ 4.200,00</v-card-text>
+          <v-card-text>
+            <p class="text-h6 text-bold">R$ 4.200,00</p>
+            <p class="mt-4 font-weight-bold mb-2">Saídas Recentes:</p>
+            <v-card variant="tonal" class="my-2">
+              <v-card-text class="pa-2">
+                <div class="d-flex align-center">
+                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
+                  <div>
+                    <p>Teste</p>
+                    <p>R$ 4200.00</p>
+                  </div>
+                  <div class="ml-auto">
+                    <p>20/09/2024</p>
+                  </div>
+                </div>
+              </v-card-text>
+            </v-card>
+            <v-card variant="tonal" class="my-2">
+              <v-card-text class="pa-2">
+                <div class="d-flex align-center">
+                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
+                  <div>
+                    <p>Teste</p>
+                    <p>R$ 4200.00</p>
+                  </div>
+                  <div class="ml-auto">
+                    <p>20/09/2024</p>
+                  </div>
+                </div>
+              </v-card-text>
+            </v-card>
+            <v-card variant="tonal" class="my-2">
+              <v-card-text class="pa-2">
+                <div class="d-flex align-center">
+                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
+                  <div>
+                    <p>Teste</p>
+                    <p>R$ 4200.00</p>
+                  </div>
+                  <div class="ml-auto">
+                    <p>20/09/2024</p>
+                  </div>
+                </div>
+              </v-card-text>
+            </v-card>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
     <v-row>
       <v-col>
-        <v-card>
+        <v-card class="fill-height">
           <v-card-title>Balanço mensal </v-card-title>
           <v-container>
             <v-sparkline
@@ -78,8 +165,8 @@
           </v-container>
         </v-card>
       </v-col>
-      <v-col class="fill-height">
-        <v-card>
+      <v-col>
+        <v-card class="fill-height">
           <v-card-title>Gasto por categoria</v-card-title>
           <v-list class="mx-4">
             <v-list-item
