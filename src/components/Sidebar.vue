@@ -41,6 +41,7 @@ export default {
       <v-list-item
         prepend-icon="mdi-cog"
         link
+        to="/settings"
         title="Configurações"
       ></v-list-item>
     </v-list>
