@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from .common.db import create_db_and_tables
+from .common.db import create_db_and_tables, SessionDep
 from .routers import main, user
 
 app = FastAPI()

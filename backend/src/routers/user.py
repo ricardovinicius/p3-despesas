@@ -1,19 +1,19 @@
-from typing import Annotated
 import bcrypt
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, HTTPException
 from sqlmodel import select
 
-from src.common.settings import Settings, get_settings
 from src.models.user_model import User
+from src.repository.user_repository import IUserRepository, UserRepository
 from src.schemas.user_schemas import UserLoginSchema
-from src.common.db import SessionDep
+from src.repository.user_repository import UserRepositoryDep
+from src.common.security import SecurityDep
 
 router = APIRouter(
     prefix="/user",
     tags=["user"]
 )
 
-async def create_admin_user(session: SessionDep):
+def create_admin_user(userRepository: IUserRepository = UserRepository()):
     password = 'admin'
     pwd_bytes = password.encode('utf-8')
     salt = bcrypt.gensalt()
@@ -21,15 +21,21 @@ async def create_admin_user(session: SessionDep):
     
     admin = User(name="admin", email_address="admin@admin.com", password=hash)
     
-    session.add(admin)
-    
+    userRepository.add(admin)
 
 @router.get("/login")
-async def login(data: UserLoginSchema, session: SessionDep):
-    sttm = select(User).where(User.email_address == data.email_address)
-    user = session.exec(sttm)
+async def login(data: UserLoginSchema, userRepository: UserRepositoryDep, security: SecurityDep):
+    user: User = userRepository.get_by_email_address(data.email_address)
     
-    if (user is None):
-        return HTTPException()
+    if user is None:
+        return HTTPException(status_code=401, detail="Invalid credentials")
     
-    return data
+    if not bcrypt.checkpw(data.password.encode('utf-8'), user.password):
+        return HTTPException(status_code=401, detail="Invalid credentials")
+    
+    subject = {"username": user.name}
+    
+    access_token = security.access_security.create_access_token(subject=subject)
+    refresh_token = security.refresh_security.create_refresh_token(subject=subject)
+
+    return {"access_token": access_token, "refresh_token": refresh_token}
