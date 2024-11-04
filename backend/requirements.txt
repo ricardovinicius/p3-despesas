@@ -1,2 +1,5 @@
 fastapi[standard]
 sqlmodel
+fastapi-jwt[authlib]
+pydantic-settings
+bcrypt
