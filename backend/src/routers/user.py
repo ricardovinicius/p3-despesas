@@ -1,11 +1,10 @@
 import bcrypt
 from fastapi import APIRouter, HTTPException
-from sqlmodel import select
 
 from src.models.user_model import User
-from src.repository.user_repository import IUserRepository, UserRepository
+from src.repositories.user_repository import IUserRepository, UserRepository
 from src.schemas.user_schemas import UserLoginSchema
-from src.repository.user_repository import UserRepositoryDep
+from src.repositories.user_repository import UserRepositoryDep
 from src.common.security import SecurityDep
 
 router = APIRouter(
@@ -19,13 +18,13 @@ def create_admin_user(userRepository: IUserRepository = UserRepository()):
     salt = bcrypt.gensalt()
     hash = bcrypt.hashpw(pwd_bytes, salt)
     
-    admin = User(name="admin", email_address="admin@admin.com", password=hash)
+    admin = User(name="admin", email="admin@admin.com", password=hash)
     
     userRepository.add(admin)
 
-@router.get("/login")
+@router.post("/login")
 async def login(data: UserLoginSchema, userRepository: UserRepositoryDep, security: SecurityDep):
-    user: User = userRepository.get_by_email_address(data.email_address)
+    user: User = userRepository.get_by_email_address(data.email)
     
     if user is None:
         return HTTPException(status_code=401, detail="Invalid credentials")

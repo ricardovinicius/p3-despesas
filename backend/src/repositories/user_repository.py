@@ -11,7 +11,7 @@ class IUserRepository():
     def delete(user: User) -> None:
         raise NotImplementedError
     
-    def get_by_email_address(email_address: str) -> User:
+    def get_by_email_address(email: str) -> User:
         raise NotImplementedError
 
 class UserRepository(IUserRepository):
@@ -20,9 +20,9 @@ class UserRepository(IUserRepository):
             session.add(user)
             session.commit()
             
-    def get_by_email_address(self, email_address) -> User:
+    def get_by_email_address(self, email) -> User:
         with Session(engine) as session:
-            sttm = select(User).where(User.email_address == email_address)
+            sttm = select(User).where(User.email == email)
             user = session.exec(sttm).first()
             
             return user

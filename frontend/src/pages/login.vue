@@ -69,6 +69,10 @@
 </template>
 
 <script>
+import { useAuth } from "vue-auth3";
+
+const auth = useAuth();
+
 export default {
   data() {
     return {
@@ -79,7 +83,19 @@ export default {
   },
   methods: {
     submitForm() {
+      this.login();
       this.$router.push("/dashboard");
+    },
+    login() {
+      this.$auth.login({
+        url: `${import.meta.env.VITE_API_URL}/user/login`,
+        data: {
+          email: "admin@admin.com",
+          password: "admin",
+        },
+        staySignedIn: true,
+        fetchUser: true,
+      });
     },
     goToSignup() {
       this.$router.push("/signup"); // Corrigido: rota e nome do método

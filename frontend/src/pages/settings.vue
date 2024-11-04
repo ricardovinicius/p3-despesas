@@ -13,5 +13,6 @@
 
 <route lang="yaml">
 meta:
-  layout: new
+  layout: new,
+  auth: true
 </route>
