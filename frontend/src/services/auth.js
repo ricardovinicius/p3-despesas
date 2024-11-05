@@ -1,13 +1,13 @@
 export function login(auth, data) {
   auth
     .login({
-      url: `${import.meta.env.VITE_API_URL}/user/login`,
       data: {
         email: data.email,
         password: data.password,
       },
       redirect: "/dashboard",
       staySignedIn: true,
+      fetchUser: true
     })
     .catch((error) => {
       if (error.response) {
@@ -26,7 +26,6 @@ export function login(auth, data) {
 export function register(auth, data) {
   auth
     .register({
-      url: `${import.meta.env.VITE_API_URL}/user`,
       data: {
         name: data.name,
         email: data.email,

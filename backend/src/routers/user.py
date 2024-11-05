@@ -1,12 +1,12 @@
-from sqlite3 import IntegrityError
 import bcrypt
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Security
+from fastapi_jwt import JwtAuthorizationCredentials
 
 from src.models.user_model import User
 from src.repositories.user_repository import IUserRepository, UserRepository
 from src.schemas.user_schemas import UserCreateSchema, UserLoginSchema
 from src.repositories.user_repository import UserRepositoryDep
-from src.common.security import SecurityDep
+from src.common.security import SecurityConfig, SecurityDep
 
 router = APIRouter(
     prefix="/user",
@@ -36,7 +36,7 @@ async def login(data: UserLoginSchema, userRepository: UserRepositoryDep, securi
     if not bcrypt.checkpw(data.password.encode('utf-8'), user.password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    subject = {"username": user.name}
+    subject = {"id": user.id, "username": user.name}
     
     access_token = security.access_security.create_access_token(subject=subject)
 
@@ -57,5 +57,13 @@ async def create_new_user(data: UserCreateSchema, userRepository: UserRepository
     user = User(name=data.name, email=data.email, password=hash)
     
     userRepository.add(user)
+
+@router.get("/me")
+def read_current_user(userRepository: UserRepositoryDep,
+                      credentials: JwtAuthorizationCredentials = Security(SecurityConfig.access_security)):  
+    if not credentials:
+        raise HTTPException(status_code=401, detail='Unauthorized')
+    
+    user: User = userRepository.get_by_id(credentials["id"])
     
     return user

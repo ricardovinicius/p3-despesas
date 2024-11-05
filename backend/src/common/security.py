@@ -6,7 +6,7 @@ from fastapi_jwt import JwtAccessBearerCookie, JwtRefreshBearer
 from src.common.settings import get_settings
 
 
-class Security():
+class SecurityConfig():
     settings = get_settings()
 
     access_security = JwtAccessBearerCookie(
@@ -20,4 +20,4 @@ class Security():
         auto_error=True  
     )
 
-SecurityDep = Annotated[Security, Depends(Security)]
+SecurityDep = Annotated[SecurityConfig, Depends(SecurityConfig)]

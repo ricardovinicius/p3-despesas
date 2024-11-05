@@ -1,5 +1,6 @@
 <script>
 import { useUiStore } from "@/stores/ui";
+import { useAuth, useUser } from "vue-auth3";
 
 export default {
   setup() {
@@ -8,8 +9,14 @@ export default {
     const test = () => {
       console.log("test");
     };
+    const user = useUser();
+    const auth = useAuth();
 
-    return { uiStore, test, isEntradaOpen }; // Retorna para usar no template
+    const logoutHandler = () => {
+      auth.logout({ makeRequest: false, redirect: "/login" });
+    };
+
+    return { uiStore, test, isEntradaOpen, user, logoutHandler }; // Retorna para usar no template
   },
 };
 </script>
@@ -37,9 +44,34 @@ export default {
       </v-btn>
     </template>
     <template v-slot:append>
-      <v-avatar>
-        <v-icon icon="mdi-account-circle"></v-icon>
-      </v-avatar>
+      <v-menu min-width="200px" rounded>
+        <template v-slot:activator="{ props }">
+          <v-btn icon v-bind="props">
+            <v-avatar color="blue">
+              <v-icon icon="mdi-account-circle"></v-icon>
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-text>
+            <div class="mx-auto text-center">
+              <v-avatar color="blue">
+                <v-icon icon="mdi-account-circle"></v-icon>
+              </v-avatar>
+              <h3>{{ user.name }}</h3>
+              <p class="text-caption mt-1">
+                {{ user.email }}
+              </p>
+              <v-divider class="my-3"></v-divider>
+              <v-btn variant="text" rounded> Edit Account </v-btn>
+              <v-divider class="my-3"></v-divider>
+              <v-btn variant="text" rounded @click.stop="logoutHandler()">
+                Disconnect
+              </v-btn>
+            </div>
+          </v-card-text>
+        </v-card>
+      </v-menu>
     </template>
     <Dialog :isOpen="isEntradaOpen"></Dialog>
   </v-app-bar>

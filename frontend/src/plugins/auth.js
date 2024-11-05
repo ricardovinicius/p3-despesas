@@ -12,6 +12,15 @@ const auth = createAuth({
     auth: driverAuthBearerToken,
     http: driverHttpAxios,
   },
+  registerData: {
+    url: `${import.meta.env.VITE_API_URL}/user`
+  },
+  loginData: {
+    url: `${import.meta.env.VITE_API_URL}/user/login`,
+  },
+  fetchData: {
+    url: `${import.meta.env.VITE_API_URL}/user/me`,
+  }
 });
 
 export default auth;
