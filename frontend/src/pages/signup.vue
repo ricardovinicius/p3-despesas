@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h1 class="font-weight-bold text-3xl text-center">Cadastro de Usuário - FinanSys</h1>
+    <h1 class="font-weight-bold text-3xl text-center">
+      Cadastro de Usuário - FinanSys
+    </h1>
 
     <v-card
       class="mx-auto pa-12 pb-8"
@@ -8,7 +10,9 @@
       max-width="448"
       rounded="lg"
     >
-      <div class="text-subtitle-1 text-medium-emphasis">Informações Básicas</div>
+      <div class="text-subtitle-1 text-medium-emphasis">
+        Informações Básicas
+      </div>
 
       <!-- Nome Completo -->
       <v-text-field
@@ -71,21 +75,26 @@
 export default {
   data() {
     return {
-      fullName: '',
-      email: '',
-      password: '',
+      fullName: "",
+      email: "",
+      password: "",
       visible: false,
-    }
+    };
   },
   methods: {
     submitForm() {
       // Adicionar a lógica de envio de cadastro aqui
-      console.log('Cadastro enviado:', this.fullName, this.email, this.password);
-      this.$router.push('/new'); // Redirecionar após cadastro
+      console.log(
+        "Cadastro enviado:",
+        this.fullName,
+        this.email,
+        this.password
+      );
+      this.$router.push("/new"); // Redirecionar após cadastro
     },
     goToLogin() {
-      this.$router.push('/login'); // Redireciona para a página de login
+      this.$router.push("/login"); // Redireciona para a página de login
     },
   },
-}
+};
 </script>

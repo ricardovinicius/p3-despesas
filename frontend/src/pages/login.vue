@@ -94,7 +94,6 @@ export default {
           password: "admin",
         },
         staySignedIn: true,
-        fetchUser: true,
       });
     },
     goToSignup() {

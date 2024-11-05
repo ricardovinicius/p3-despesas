@@ -35,6 +35,5 @@ async def login(data: UserLoginSchema, userRepository: UserRepositoryDep, securi
     subject = {"username": user.name}
     
     access_token = security.access_security.create_access_token(subject=subject)
-    refresh_token = security.refresh_security.create_refresh_token(subject=subject)
 
-    return {"access_token": access_token, "refresh_token": refresh_token}
+    return {"token": access_token}
