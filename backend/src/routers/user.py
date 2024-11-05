@@ -1,3 +1,4 @@
+from sqlite3 import IntegrityError
 import bcrypt
 from fastapi import APIRouter, HTTPException
 
@@ -20,7 +21,10 @@ def create_admin_user(userRepository: IUserRepository = UserRepository()):
     
     admin = User(name="admin", email="admin@admin.com", password=hash)
     
-    userRepository.add(admin)
+    try:
+        userRepository.add(admin)
+    except:
+        pass
 
 @router.post("/login")
 async def login(data: UserLoginSchema, userRepository: UserRepositoryDep, security: SecurityDep):
@@ -40,6 +44,11 @@ async def login(data: UserLoginSchema, userRepository: UserRepositoryDep, securi
 
 @router.post("/")
 async def create_new_user(data: UserCreateSchema, userRepository: UserRepositoryDep):
+    already_registred_user: User = userRepository.get_by_email_address(data.email)
+    
+    if already_registred_user:
+        raise HTTPException(status_code=422, detail="User with same email already registred")
+    
     password = data.password
     pwd_bytes = password.encode('utf-8')
     salt = bcrypt.gensalt()
