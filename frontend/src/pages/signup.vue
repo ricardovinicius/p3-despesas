@@ -72,6 +72,8 @@
 </template>
 
 <script>
+import { register } from "@/services/auth";
+
 export default {
   data() {
     return {
@@ -90,7 +92,11 @@ export default {
         this.email,
         this.password
       );
-      this.$router.push("/new"); // Redirecionar após cadastro
+      register(this.$auth, {
+        name: this.fullName,
+        email: this.email,
+        password: this.password,
+      });
     },
     goToLogin() {
       this.$router.push("/login"); // Redireciona para a página de login

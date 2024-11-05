@@ -11,6 +11,7 @@
       <div class="text-subtitle-1 text-medium-emphasis">Conta</div>
 
       <v-text-field
+        v-model="email"
         density="compact"
         placeholder="Endereço de email"
         prepend-inner-icon="mdi-email-outline"
@@ -33,6 +34,7 @@
       </div>
 
       <v-text-field
+        v-model="password"
         :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
         :type="visible ? 'text' : 'password'"
         density="compact"
@@ -69,9 +71,7 @@
 </template>
 
 <script>
-import { useAuth } from "vue-auth3";
-
-const auth = useAuth();
+import { login } from "@/services/auth";
 
 export default {
   data() {
@@ -83,18 +83,7 @@ export default {
   },
   methods: {
     submitForm() {
-      this.login();
-      this.$router.push("/dashboard");
-    },
-    login() {
-      this.$auth.login({
-        url: `${import.meta.env.VITE_API_URL}/user/login`,
-        data: {
-          email: "admin@admin.com",
-          password: "admin",
-        },
-        staySignedIn: true,
-      });
+      login(this.$auth, { email: this.email, password: this.password });
     },
     goToSignup() {
       this.$router.push("/signup"); // Corrigido: rota e nome do método
