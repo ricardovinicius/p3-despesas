@@ -7,20 +7,27 @@
           <v-container>
             <v-row>
               <v-col>
-                <v-text-field label="Descrição"></v-text-field>
+                <v-text-field
+                  v-model="transaction.description"
+                  label="Descrição"
+                ></v-text-field>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
-                <v-text-field label="Valor"></v-text-field>
+                <v-text-field
+                  v-model="transaction.value"
+                  label="Valor"
+                ></v-text-field>
               </v-col>
               <v-col>
-                <v-date-input></v-date-input>
+                <v-date-input v-model="transaction.date"></v-date-input>
               </v-col>
             </v-row>
             <v-row>
               <v-col>
                 <v-select
+                  v-model="transaction.category"
                   label="Categoria"
                   :items="[
                     'California',
@@ -39,7 +46,12 @@
           <v-btn
             color="green"
             text="Adicionar"
-            @click="isActive.value = false"
+            @click="
+              () => {
+                handleSubmit();
+                isActive.value = false;
+              }
+            "
           ></v-btn>
           <v-btn
             class="ml-auto"
@@ -53,11 +65,31 @@
 </template>
 
 <script>
+import { create_new_transaction } from "@/services/transaction";
+import { useAuth } from "vue-auth3";
+
+const auth = useAuth();
+
 export default {
   props: ["activator", "tipo"],
   computed: {
     title() {
       return this.tipo == "entrada" ? "Adicionar entrada" : "Adicionar saída";
+    },
+  },
+  data() {
+    return {
+      transaction: {
+        description: "",
+        value: 0,
+        date: null,
+        category: "",
+      },
+    };
+  },
+  methods: {
+    handleSubmit() {
+      create_new_transaction(this.$auth, this.transaction, "income");
     },
   },
 };

@@ -23,7 +23,7 @@
     <v-row>
       <v-col>
         <v-card class="fill-height">
-          <v-card-title>Bem vindo, Ricardo!</v-card-title>
+          <v-card-title>Bem vindo, {{ this.$auth.user().name }}!</v-card-title>
           <v-spacer></v-spacer>
           <v-card-text class="mr-8 font-italic"
             >“Muitas pessoas gastam dinheiro que não tem, para comprar coisas

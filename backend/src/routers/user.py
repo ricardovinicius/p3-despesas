@@ -42,7 +42,7 @@ async def login(data: UserLoginSchema, userRepository: UserRepositoryDep, securi
 
     return {"token": access_token}
 
-@router.post("/")
+@router.post("", status_code=201)
 async def create_new_user(data: UserCreateSchema, userRepository: UserRepositoryDep):
     already_registred_user: User = userRepository.get_by_email_address(data.email)
     

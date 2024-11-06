@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from src.routers import transaction
+
 from .common.db import create_db_and_tables, SessionDep
 from .routers import main, user
 
@@ -21,6 +23,7 @@ app.add_middleware(
 
 app.include_router(main.router)
 app.include_router(user.router)
+app.include_router(transaction.router)
 
 @app.on_event("startup")
 def on_startup():

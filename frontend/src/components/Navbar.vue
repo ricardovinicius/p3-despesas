@@ -32,11 +32,17 @@ export default {
         <v-menu activator="parent">
           <v-list>
             <v-list-item id="entrada" value="entrada">
-              <FooDialog activator="#entrada" tipo="entrada"></FooDialog>
+              <TransactionDialog
+                activator="#entrada"
+                tipo="entrada"
+              ></TransactionDialog>
               <v-list-item-title>Entrada</v-list-item-title>
             </v-list-item>
             <v-list-item id="saida" value="saida">
-              <FooDialog activator="#saida" tipo="saida"></FooDialog>
+              <TransactionDialog
+                activator="#saida"
+                tipo="saida"
+              ></TransactionDialog>
               <v-list-item-title>Saída</v-list-item-title>
             </v-list-item>
           </v-list>
