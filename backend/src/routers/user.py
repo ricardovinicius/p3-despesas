@@ -4,7 +4,7 @@ from fastapi_jwt import JwtAuthorizationCredentials
 
 from src.models.user_model import User
 from src.repositories.user_repository import IUserRepository, UserRepository
-from src.schemas.user_schemas import UserCreateSchema, UserLoginSchema
+from src.schemas.user_schemas import UserCreateSchema, UserLoginSchema, UserPublicSchema
 from src.repositories.user_repository import UserRepositoryDep
 from src.common.security import SecurityConfig, SecurityDep
 
@@ -60,7 +60,7 @@ async def create_new_user(data: UserCreateSchema, userRepository: UserRepository
 
 @router.get("/me")
 def read_current_user(userRepository: UserRepositoryDep,
-                      credentials: JwtAuthorizationCredentials = Security(SecurityConfig.access_security)):  
+                      credentials: JwtAuthorizationCredentials = Security(SecurityConfig.access_security)) -> UserPublicSchema:  
     if not credentials:
         raise HTTPException(status_code=401, detail='Unauthorized')
     
