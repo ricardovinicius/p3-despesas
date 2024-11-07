@@ -5,18 +5,31 @@ const instance = axios.create({
 })
 
 export function create_new_transaction(auth, transaction, type) {
-    console.log(transaction)
+    const date = `${transaction.date.getFullYear()}-${transaction.date.getMonth().toString().padStart(2, '0')}-${transaction.date.getDay().toString().padStart(2, '0')}`
 
     const data = {
         type: type,
         description: transaction.description,
         value: transaction.value,
-        date: transaction.date,
+        date: date,
         category: transaction.category,
         user_id: auth.user().id
     }
-    instance.post("", {
-        data: data,
+
+    console.log(data)
+
+    instance.post("", data, {
         headers: {"Authorization": `Bearer ${auth.token()}`},
-    })
+    }).catch((error) => {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+        console.log(error.config);
+      });
 }

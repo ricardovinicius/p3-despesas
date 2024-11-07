@@ -29,14 +29,7 @@
                 <v-select
                   v-model="transaction.category"
                   label="Categoria"
-                  :items="[
-                    'California',
-                    'Colorado',
-                    'Florida',
-                    'Georgia',
-                    'Texas',
-                    'Wyoming',
-                  ]"
+                  :items="['food']"
                 ></v-select>
               </v-col>
             </v-row>
