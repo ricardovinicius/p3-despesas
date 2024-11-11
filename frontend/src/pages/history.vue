@@ -36,13 +36,17 @@
     </v-row>
     <v-row>
       <!-- Tabela com filtro de busca e categoria -->
-      <v-data-table :items="filteredItems"></v-data-table>
+      <v-data-table-virtual :items="filteredItems"></v-data-table-virtual>
     </v-row>
   </v-container>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
+import { list_transactions } from "@/services/transaction";
+import { useAuth } from "vue-auth3";
+
+const auth = useAuth();
 
 const search = ref("");
 const selectedCategory = ref(null);
@@ -151,6 +155,10 @@ const filteredItems = computed(() => {
   }
 
   return filtered;
+});
+
+onMounted(async () => {
+  items.push(...(await list_transactions(auth)));
 });
 </script>
 

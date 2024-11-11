@@ -30,3 +30,16 @@ async def create_new_transaction(data: TransactionCreateSchema, transactionRepos
         user_id=data.user_id
     )
     transactionRepository.add(transaction)
+    
+@router.get("")
+async def list_transactions(user_id: int, transactionRepository: TransactionRepositoryDep, 
+                            credentials: JwtAuthorizationCredentials = Security(SecurityConfig.access_security)):
+    if not credentials:
+        raise HTTPException(status_code=401, detail='Unauthorized')
+    
+    if user_id != credentials["id"]:
+        raise HTTPException(status_code=401, detail='Unauthorized') 
+    
+    return transactionRepository.list(user_id)
+    
+    

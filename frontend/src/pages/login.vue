@@ -89,5 +89,10 @@ export default {
       this.$router.push("/signup"); // Corrigido: rota e nome do método
     },
   },
+  beforeCreate() {
+    if (this.$auth.check()) {
+      this.$router.push("/dashboard");
+    }
+  },
 };
 </script>
