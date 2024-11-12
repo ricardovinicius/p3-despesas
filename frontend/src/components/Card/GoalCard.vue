@@ -7,14 +7,8 @@
     <v-spacer></v-spacer>
     <v-card-text>
       <v-row>
-        <v-col
-          ><p>Valor Gasto: R$ {{ model.spend }}</p></v-col
-        >
-        <v-col
-          ><p class="text-end">
-            Resta: R$ {{ model.goal - model.spend }}
-          </p></v-col
-        >
+        <v-col><p>Valor Gasto: R$ {{ model.spend }}</p></v-col>
+        <v-col><p class="text-end">Resta: R$ {{ model.goal - model.spend }}</p></v-col>
       </v-row>
       <v-row class="mt-0">
         <v-slider
@@ -53,6 +47,16 @@
 </template>
 
 <script setup>
-const model = defineModel();
+import { ref } from "vue";
+
+
+const props = defineProps({
+  model: {
+    type: Object,
+    required: true,
+  },
+});
+
+
 const cardEdit = ref(false);
 </script>
