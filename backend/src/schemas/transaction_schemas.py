@@ -1,9 +1,14 @@
 import datetime
-from typing import Literal
+from typing import Literal,  List
 from pydantic import BaseModel
 
 TransactionType = Literal["income", "expense"]
-TransactionCategory = Literal["food"]
+TransactionCategory = Literal[
+    "ALIMENTACAO", "TRANSPORTE", "SAUDE", "EDUCACAO", 
+    "MORADIA", "LAZER", "COMPRAS", "ASSINATURAS E SERVICOS", 
+    "CONTAS E UTILIDADES", "OUTROS"
+]
+
 
 class TransactionCreateSchema(BaseModel):
     type: TransactionType
@@ -12,3 +17,13 @@ class TransactionCreateSchema(BaseModel):
     date: datetime.date
     category: TransactionCategory
     user_id: int
+    
+    
+class CategoryExpenseSchema(BaseModel):
+    category: str
+    total: float
+
+
+class TransactionSummarySchema(BaseModel):
+    total: float
+    category_expenses: List[CategoryExpenseSchema]
