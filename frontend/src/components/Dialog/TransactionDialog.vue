@@ -29,7 +29,19 @@
                 <v-select
                   v-model="transaction.category"
                   label="Categoria"
-                  :items="['food']"
+                  :items="[
+                    'ALIMENTACAO', 
+                    'TRANSPORTE', 
+                    'SAUDE', 
+                    'EDUCACAO', 
+                    'MORADIA', 
+                    'LAZER', 
+                    'COMPRAS', 
+                    'ASSINATURAS E SERVICOS', 
+                    'CONTAS E UTILIDADES', 
+                    'OUTROS'
+                ]"
+
                 ></v-select>
               </v-col>
             </v-row>
