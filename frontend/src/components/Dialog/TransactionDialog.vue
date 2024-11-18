@@ -30,18 +30,17 @@
                   v-model="transaction.category"
                   label="Categoria"
                   :items="[
-                    'ALIMENTACAO', 
-                    'TRANSPORTE', 
-                    'SAUDE', 
-                    'EDUCACAO', 
-                    'MORADIA', 
-                    'LAZER', 
-                    'COMPRAS', 
-                    'ASSINATURAS E SERVICOS', 
-                    'CONTAS E UTILIDADES', 
-                    'OUTROS'
-                ]"
-
+                    'ALIMENTACAO',
+                    'TRANSPORTE',
+                    'SAUDE',
+                    'EDUCACAO',
+                    'MORADIA',
+                    'LAZER',
+                    'COMPRAS',
+                    'ASSINATURAS E SERVICOS',
+                    'CONTAS E UTILIDADES',
+                    'OUTROS',
+                  ]"
                 ></v-select>
               </v-col>
             </v-row>
@@ -71,9 +70,11 @@
 
 <script>
 import { create_new_transaction } from "@/services/transaction";
+import { useTransactionStore } from "@/stores/transaction";
 import { useAuth } from "vue-auth3";
 
 const auth = useAuth();
+const transactionStore = useTransactionStore();
 
 export default {
   props: ["activator", "tipo"],
@@ -94,7 +95,7 @@ export default {
   },
   methods: {
     handleSubmit() {
-      create_new_transaction(this.$auth, this.transaction, "income");
+      transactionStore.addTransaction(this.$auth, this.transaction, this.tipo);
     },
   },
 };

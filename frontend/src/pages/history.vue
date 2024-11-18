@@ -42,9 +42,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onCreated } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { list_transactions } from "@/services/transaction";
 import { useAuth } from "vue-auth3";
+import { useTransactionStore } from "@/stores/transaction";
 
 const auth = useAuth();
 
@@ -59,69 +60,9 @@ const categories = [
   "Transporte",
   "Serviços",
 ];
+const transactionStore = useTransactionStore();
 
-const items = [
-  {
-    descrição: "Comprei uma camisa na Shopee",
-    valor: "R$ 42,00",
-    data: "09/20/2024",
-    categoria: "Compras",
-  },
-  {
-    descrição: "Assinei Netflix",
-    valor: "R$ 29,90",
-    data: "09/18/2024",
-    categoria: "Entretenimento",
-  },
-  {
-    descrição: "Paguei conta de luz",
-    valor: "R$ 150,00",
-    data: "09/15/2024",
-    categoria: "Contas",
-  },
-  {
-    descrição: "Almoço no restaurante",
-    valor: "R$ 45,00",
-    data: "09/14/2024",
-    categoria: "Alimentação",
-  },
-  {
-    descrição: "Compra de passagem de ônibus",
-    valor: "R$ 75,00",
-    data: "09/13/2024",
-    categoria: "Transporte",
-  },
-  {
-    descrição: "Supermercado",
-    valor: "R$ 220,00",
-    data: "09/12/2024",
-    categoria: "Alimentação",
-  },
-  {
-    descrição: "Renovação de domínio",
-    valor: "R$ 30,00",
-    data: "09/10/2024",
-    categoria: "Serviços",
-  },
-  {
-    descrição: "Pagamento do cartão de crédito",
-    valor: "R$ 1.200,00",
-    data: "09/09/2024",
-    categoria: "Contas",
-  },
-  {
-    descrição: "Manutenção no carro",
-    valor: "R$ 450,00",
-    data: "09/07/2024",
-    categoria: "Transporte",
-  },
-  {
-    descrição: "Compra de presentes",
-    valor: "R$ 90,00",
-    data: "09/05/2024",
-    categoria: "Compras",
-  },
-];
+const items = reactive(transactionStore.items);
 
 // Computed para filtrar os itens com base no texto da busca e na categoria selecionada
 const filteredItems = computed(() => {
@@ -157,18 +98,8 @@ const filteredItems = computed(() => {
   return filtered;
 });
 
-onCreated(async () => {
-  const res = await list_transactions(auth);
-  console.log(res);
-  res.forEach((e) => {
-    console.log(e);
-    items.push({
-      descrição: e.description,
-      valor: e.value,
-      data: e.date,
-      categoria: e.category,
-    });
-  });
+onMounted(async () => {
+  transactionStore.fetchItems(auth);
 });
 </script>
 
