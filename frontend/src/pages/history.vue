@@ -42,7 +42,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from "vue";
+import { ref, computed, onCreated } from "vue";
 import { list_transactions } from "@/services/transaction";
 import { useAuth } from "vue-auth3";
 
@@ -157,8 +157,18 @@ const filteredItems = computed(() => {
   return filtered;
 });
 
-onMounted(async () => {
-  items.push(...(await list_transactions(auth)));
+onCreated(async () => {
+  const res = await list_transactions(auth);
+  console.log(res);
+  res.forEach((e) => {
+    console.log(e);
+    items.push({
+      descrição: e.description,
+      valor: e.value,
+      data: e.date,
+      categoria: e.category,
+    });
+  });
 });
 </script>
 
