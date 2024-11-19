@@ -4,16 +4,15 @@ from sqlmodel import Field, Relationship, SQLModel
 from src.models.user_model import User
 
 class Categoria(Enum):
-    ALIMENTACAO = "Alimentação"
-    TRANSPORTE = "Transporte"
-    SAUDE = "Saúde"
-    EDUCACAO = "Educação"
-    MORADIA = "Moradia"
-    LAZER = "Lazer"
-    COMPRAS = "Compras"
-    ASSINATURAS_SERVICOS = "Assinaturas e Serviços"
-    CONTAS_UTILIDADES = "Contas e Utilidades"
-    OUTROS = "Outros"
+    ALIMENTACAO = "ALIMENTACAO"
+    TRANSPORTE = "TRANSPORTE"
+    SAUDE = "SAUDE"
+    EDUCACAO = "EDUCACAO"
+    MORADIA = "MORADIA"
+    LAZER = "LAZER"
+    COMPRAS = "COMPRAS"
+    CONTAS_UTILIDADES = "CONTAS_E_UTILIDADES"
+    OUTROS = "OUTROS"
 
 class Transaction(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
