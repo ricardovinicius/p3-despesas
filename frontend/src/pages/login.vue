@@ -91,7 +91,7 @@ export default {
   },
   beforeCreate() {
     if (this.$auth.check()) {
-      this.$router.push("/dashboard");
+      this.$router.push("/");
     }
   },
 };
