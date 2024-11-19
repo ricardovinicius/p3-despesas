@@ -7,8 +7,8 @@
       <v-col class="d-flex justify-end" cols="3">
         <v-select
           label=""
-          :items="months"
-          v-model="current_item"
+          :items="getMonths"
+          v-model="transactionStore.selectedMonth"
           density="comfortable"
           class="mr-4"
         ></v-select>
@@ -23,7 +23,7 @@
     <v-row>
       <v-col>
         <v-card class="fill-height">
-          <v-card-title>Bem vindo, {{ this.$auth.user().name }}!</v-card-title>
+          <v-card-title>Bem vindo, {{ auth.user().name }}!</v-card-title>
           <v-spacer></v-spacer>
           <v-card-text class="mr-8 font-italic"
             >“Muitas pessoas gastam dinheiro que não tem, para comprar coisas
@@ -34,9 +34,11 @@
       </v-col>
       <v-col>
         <v-card class="fill-height d-flex flex-column">
-          <v-card-title>Balanço atual: </v-card-title>
+          <v-card-title>Valor total: </v-card-title>
           <v-spacer></v-spacer>
-          <v-card-text class="text-h6">R$ 4.200,00</v-card-text>
+          <v-card-text class="text-h6"
+            >R$ {{ transactionStore.get_current_balance }}</v-card-text
+          >
         </v-card>
       </v-col>
     </v-row>
@@ -45,46 +47,27 @@
         <v-card color="green" class="fill-height d-flex flex-column">
           <v-card-title>Entradas </v-card-title>
           <v-card-text>
-            <p class="text-h6 text-bold">R$ 4.200,00</p>
-            <p class="mt-4 font-weight-bold mb-2">Entradas Recentes:</p>
-            <v-card variant="tonal" class="my-2">
+            <p class="text-h6 text-bold">
+              R$ {{ transactionStore.get_current_income }}
+            </p>
+            <p class="mt-4 font-weight-bold mb-2">Últimas Entradas:</p>
+            <v-card
+              variant="tonal"
+              class="my-2"
+              v-for="item in transactionStore.get_last_incomes"
+            >
               <v-card-text class="pa-2">
                 <div class="d-flex align-center">
-                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
+                  <v-icon
+                    :icon="get_income_category_icon(item.categoria)"
+                    class="mr-4"
+                  ></v-icon>
                   <div>
-                    <p>Teste</p>
-                    <p>R$ 4200.00</p>
+                    <p>{{ item.descrição }}</p>
+                    <p>R$ {{ item.valor }}</p>
                   </div>
                   <div class="ml-auto">
-                    <p>20/09/2024</p>
-                  </div>
-                </div>
-              </v-card-text>
-            </v-card>
-            <v-card variant="tonal" class="my-2">
-              <v-card-text class="pa-2">
-                <div class="d-flex align-center">
-                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
-                  <div>
-                    <p>Teste</p>
-                    <p>R$ 4200.00</p>
-                  </div>
-                  <div class="ml-auto">
-                    <p>20/09/2024</p>
-                  </div>
-                </div>
-              </v-card-text>
-            </v-card>
-            <v-card variant="tonal" class="my-2">
-              <v-card-text class="pa-2">
-                <div class="d-flex align-center">
-                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
-                  <div>
-                    <p>Teste</p>
-                    <p>R$ 4200.00</p>
-                  </div>
-                  <div class="ml-auto">
-                    <p>20/09/2024</p>
+                    <p>{{ item.data }}</p>
                   </div>
                 </div>
               </v-card-text>
@@ -96,46 +79,24 @@
         <v-card color="red" class="fill-height d-flex flex-column">
           <v-card-title>Saídas </v-card-title>
           <v-card-text>
-            <p class="text-h6 text-bold">R$ 4.200,00</p>
-            <p class="mt-4 font-weight-bold mb-2">Saídas Recentes:</p>
-            <v-card variant="tonal" class="my-2">
+            <p class="text-h6 text-bold">
+              R$ {{ transactionStore.get_current_expense }}
+            </p>
+            <p class="mt-4 font-weight-bold mb-2">Últimas Saídas:</p>
+            <v-card
+              variant="tonal"
+              class="my-2"
+              v-for="item in transactionStore.get_last_expenses"
+            >
               <v-card-text class="pa-2">
                 <div class="d-flex align-center">
                   <v-icon icon="mdi-food" class="mr-4"></v-icon>
                   <div>
-                    <p>Teste</p>
-                    <p>R$ 4200.00</p>
+                    <p>{{ item.descrição }}</p>
+                    <p>R$ {{ item.valor }}</p>
                   </div>
                   <div class="ml-auto">
-                    <p>20/09/2024</p>
-                  </div>
-                </div>
-              </v-card-text>
-            </v-card>
-            <v-card variant="tonal" class="my-2">
-              <v-card-text class="pa-2">
-                <div class="d-flex align-center">
-                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
-                  <div>
-                    <p>Teste</p>
-                    <p>R$ 4200.00</p>
-                  </div>
-                  <div class="ml-auto">
-                    <p>20/09/2024</p>
-                  </div>
-                </div>
-              </v-card-text>
-            </v-card>
-            <v-card variant="tonal" class="my-2">
-              <v-card-text class="pa-2">
-                <div class="d-flex align-center">
-                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
-                  <div>
-                    <p>Teste</p>
-                    <p>R$ 4200.00</p>
-                  </div>
-                  <div class="ml-auto">
-                    <p>20/09/2024</p>
+                    <p>{{ item.data }}</p>
                   </div>
                 </div>
               </v-card-text>
@@ -146,43 +107,27 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card class="fill-height">
+        <v-card class="h-100">
           <v-card-title>Balanço mensal </v-card-title>
-          <v-container>
-            <v-sparkline
-              :auto-line-width="autoLineWidth"
-              :fill="fill"
-              :gradient="gradient"
-              :gradient-direction="gradientDirection"
-              :line-width="width"
-              :model-value="value"
-              :padding="padding"
-              :smooth="radius || false"
-              :stroke-linecap="lineCap"
-              :type="type"
-              auto-draw
-            ></v-sparkline>
+          <v-container style="height: 50vh">
+            <Line :options="chartOptions" :data="datasets" />
           </v-container>
         </v-card>
       </v-col>
+    </v-row>
+    <v-row>
       <v-col>
         <v-card class="fill-height">
           <v-card-title>Gasto por categoria</v-card-title>
           <v-list class="mx-4">
             <v-list-item
-              title="Alimentação"
-              subtitle="R$ 4200.00"
-              prepend-icon="mdi-food"
-            ></v-list-item>
-            <v-list-item
-              title="Alimentação"
-              subtitle="R$ 4200.00"
-              prepend-icon="mdi-food"
-            ></v-list-item>
-            <v-list-item
-              title="Alimentação"
-              subtitle="R$ 4200.00"
-              prepend-icon="mdi-food"
+              :title="categoria"
+              :subtitle="'R$ ' + (valor | 0)"
+              :prepend-icon="get_expense_category_icon(categoria)"
+              class="mb-2"
+              v-for="(
+                valor, categoria
+              ) in transactionStore.get_expense_per_category"
             ></v-list-item>
           </v-list>
         </v-card>
@@ -191,7 +136,64 @@
   </v-container>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from "vue";
+import { useTransactionStore } from "@/stores/transaction";
+import { useAuth } from "vue-auth3";
+import { income_categories, expense_categories } from "@/utils/categories";
+
+const transactionStore = useTransactionStore();
+const auth = useAuth();
+
+const get_income_category_icon = (categoria) => {
+  let icon = "mdi-help-circle";
+  const category = income_categories.find((i) => {
+    return i.title === categoria;
+  });
+
+  console.log(category);
+
+  if (category) icon = category.icon;
+  return icon;
+};
+
+const get_expense_category_icon = (categoria) => {
+  let icon = "mdi-help-circle";
+  const category = expense_categories.find((i) => {
+    return i.title === categoria;
+  });
+
+  console.log(category);
+
+  if (category) icon = category.icon;
+  return icon;
+};
+
+const months = [
+  "Janeiro",
+  "Fevereiro",
+  "Março",
+  "Abril",
+  "Maio",
+  "Junho",
+  "Julho",
+  "Agosto",
+  "Setembro",
+  "Outubro",
+  "Novembro",
+  "Dezembro",
+];
+
+const getMonths = ref([...months]);
+
+const adjustMonths = () => {
+  const currentMonth = new Date().getMonth();
+  getMonths.value = months.slice(0, currentMonth + 1).reverse();
+};
+
+import { onBeforeMount } from "vue";
+import { Line } from "vue-chartjs";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -202,53 +204,39 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
-import { Line } from "vue-chartjs";
-import { useTransactionStore } from "@/stores/transaction";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+const datasets = computed(() => ({
+  datasets: [
+    {
+      label: "Balanço Mensal",
+      data: transactionStore.get_month_balance,
+    },
+  ],
+}));
 
-const gradients = [
-  ["#222"],
-  ["#42b3f4"],
-  ["red", "orange", "yellow"],
-  ["purple", "violet"],
-  ["#00c6ff", "#F0F", "#FF0"],
-  ["#f72047", "#ffd200", "#1feaea"],
-];
+const chartOptions = ref({
+  responsive: true,
+  maintainAspectRatio: false,
+});
 
-const transactionStore = useTransactionStore();
+onBeforeMount(() => {
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    PointElement,
+    LineElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+  console.log("linetest: onBeforeMount");
+});
 
-export default {
-  components: {
-    Line,
-  },
-  data: () => ({
-    width: 2,
-    radius: 10,
-    padding: 8,
-    lineCap: "round",
-    gradient: gradients[5],
-    value: [0, 2, 5, 9, 5, 10, 3, 5, 0, 0, 1, 8, 2, 9, 0],
-    gradientDirection: "top",
-    gradients,
-    fill: false,
-    type: "trend",
-    autoLineWidth: false,
-    current_item: "Atual",
-    months: ["Janeiro", "Fevereiro", "Março"],
-  }),
-  mounted: async () => {
-    await transactionStore.fetchItems(auth);
-  },
-};
+onMounted(async () => {
+  await transactionStore.fetchItems(auth);
+  adjustMonths();
+  console.log(transactionStore.get_month_balance);
+});
 </script>
 
 <route lang="yaml">
