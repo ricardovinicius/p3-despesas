@@ -17,6 +17,8 @@
     "vue": "^3.4.31",
     "vue-auth3": "^1.0.11",
     "vue-chartjs": "^5.3.1",
+    "vue-html-to-paper": "^2.0.3",
+    "vue-to-print": "^1.3.0",
     "vuetify": "^3.6.11"
   },
   "devDependencies": {

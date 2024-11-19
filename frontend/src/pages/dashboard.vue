@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-8" fluid>
+  <v-container ref="dashboardRef" class="pa-8" fluid>
     <v-row>
       <v-col cols="9">
         <p class="text-h4">Dashboard</p>
@@ -15,7 +15,9 @@
         <v-btn id="list-export-activator" icon="mdi-chevron-down"></v-btn>
         <v-menu activator="#list-export-activator">
           <v-list>
-            <v-list-item value="export">Exportar relatório</v-list-item>
+            <v-list-item value="export">
+              <v-btn @click="handlePrint">Exportar relatório</v-btn>
+            </v-list-item>
           </v-list>
         </v-menu>
       </v-col>
@@ -107,9 +109,9 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card class="h-100">
+        <v-card class="fill-height">
           <v-card-title>Balanço mensal </v-card-title>
-          <v-container style="height: 50vh">
+          <v-container style="height: 50dvh">
             <Line :options="chartOptions" :data="datasets" />
           </v-container>
         </v-card>
@@ -141,6 +143,15 @@ import { ref, onMounted } from "vue";
 import { useTransactionStore } from "@/stores/transaction";
 import { useAuth } from "vue-auth3";
 import { income_categories, expense_categories } from "@/utils/categories";
+import { useVueToPrint } from "vue-to-print";
+
+const dashboardRef = ref();
+
+const { handlePrint } = useVueToPrint({
+  content: dashboardRef,
+  documentTitle: "AwesomeFileName",
+  removeAfterPrint: true,
+});
 
 const transactionStore = useTransactionStore();
 const auth = useAuth();

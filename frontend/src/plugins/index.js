@@ -5,15 +5,12 @@
  */
 
 // Plugins
-import vuetify from './vuetify'
-import pinia from '@/stores'
-import router from '@/router'
-import auth from '@/plugins/auth'
+import vuetify from "./vuetify";
+import pinia from "@/stores";
+import router from "@/router";
+import auth from "@/plugins/auth";
+import VueHtmlToPaper from "vue-html-to-paper";
 
-export function registerPlugins (app) {
-  app
-    .use(vuetify)
-    .use(router)
-    .use(auth)
-    .use(pinia)
+export function registerPlugins(app) {
+  app.use(vuetify).use(router).use(auth).use(pinia);
 }
