@@ -37,8 +37,6 @@
                     'MORADIA',
                     'LAZER',
                     'COMPRAS',
-                    'ASSINATURAS E SERVICOS',
-                    'CONTAS E UTILIDADES',
                     'OUTROS',
                   ]"
                 ></v-select>
