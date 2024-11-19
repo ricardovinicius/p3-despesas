@@ -1,7 +1,7 @@
 from typing import List, Tuple, Annotated
 from fastapi import Depends
 from sqlmodel import Session, select, func
-from src.models.transaction_model import Transaction
+from src.models.transaction_model import Transaction, Categoria
 from src.common.db import engine
 
 class ITransactionRepository:
@@ -38,6 +38,7 @@ class TransactionRepository(ITransactionRepository):
             )
             category_expenses = session.exec(category_stmt).all()
             
+            category_expenses = [(Categoria(cat).value, amount) for cat, amount in category_expenses]
             return total, category_expenses
 
 TransactionRepositoryDep = Annotated[ITransactionRepository, Depends(TransactionRepository)]
