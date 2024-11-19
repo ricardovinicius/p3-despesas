@@ -7,7 +7,7 @@
       <v-col class="d-flex justify-end" cols="3">
         <v-select
           label=""
-          :items="['Atual', 'Janeiro', 'Fevereiro', 'Março', 'Abril', '...']"
+          :items="months"
           v-model="current_item"
           density="comfortable"
           class="mr-4"
@@ -203,6 +203,7 @@ import {
   Legend,
 } from "chart.js";
 import { Line } from "vue-chartjs";
+import { useTransactionStore } from "@/stores/transaction";
 
 ChartJS.register(
   CategoryScale,
@@ -223,6 +224,8 @@ const gradients = [
   ["#f72047", "#ffd200", "#1feaea"],
 ];
 
+const transactionStore = useTransactionStore();
+
 export default {
   components: {
     Line,
@@ -240,7 +243,11 @@ export default {
     type: "trend",
     autoLineWidth: false,
     current_item: "Atual",
+    months: ["Janeiro", "Fevereiro", "Março"],
   }),
+  mounted: async () => {
+    await transactionStore.fetchItems(auth);
+  },
 };
 </script>
 

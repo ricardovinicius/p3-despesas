@@ -43,7 +43,6 @@
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { list_transactions } from "@/services/transaction";
 import { useAuth } from "vue-auth3";
 import { useTransactionStore } from "@/stores/transaction";
 
@@ -62,11 +61,9 @@ const categories = [
 ];
 const transactionStore = useTransactionStore();
 
-const items = reactive(transactionStore.items);
-
 // Computed para filtrar os itens com base no texto da busca e na categoria selecionada
 const filteredItems = computed(() => {
-  let filtered = items;
+  let filtered = transactionStore.items;
 
   // Filtrar por categoria
   if (selectedCategory.value) {
@@ -99,7 +96,7 @@ const filteredItems = computed(() => {
 });
 
 onMounted(async () => {
-  transactionStore.fetchItems(auth);
+  await transactionStore.fetchItems(auth);
 });
 </script>
 
