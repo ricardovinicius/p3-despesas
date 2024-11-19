@@ -4,9 +4,15 @@ from pydantic import BaseModel
 
 TransactionType = Literal["income", "expense"]
 TransactionCategory = Literal[
-    "ALIMENTACAO", "TRANSPORTE", "SAUDE", "EDUCACAO", 
-    "MORADIA", "LAZER", "COMPRAS", "ASSINATURAS E SERVICOS", 
-    "CONTAS E UTILIDADES", "OUTROS"
+    "ALIMENTACAO", 
+    "TRANSPORTE", 
+    "SAUDE", 
+    "EDUCACAO", 
+    "MORADIA", 
+    "LAZER", 
+    "COMPRAS", 
+    "CONTAS_E_UTILIDADES", 
+    "OUTROS"
 ]
 
 
