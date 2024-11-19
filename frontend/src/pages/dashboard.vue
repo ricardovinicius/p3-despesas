@@ -92,7 +92,10 @@
             >
               <v-card-text class="pa-2">
                 <div class="d-flex align-center">
-                  <v-icon icon="mdi-food" class="mr-4"></v-icon>
+                  <v-icon
+                    :icon="get_expense_category_icon(item.categoria)"
+                    class="mr-4"
+                  ></v-icon>
                   <div>
                     <p>{{ item.descrição }}</p>
                     <p>R$ {{ item.valor }}</p>
