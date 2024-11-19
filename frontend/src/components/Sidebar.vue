@@ -23,7 +23,7 @@ export default {
       <v-list-item
         prepend-icon="mdi-view-dashboard"
         link
-        to="/dashboard"
+        to="/"
         title="Dashboard"
       ></v-list-item>
       <v-list-item
