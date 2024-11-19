@@ -29,16 +29,7 @@
                 <v-select
                   v-model="transaction.category"
                   label="Categoria"
-                  :items="[
-                    'ALIMENTACAO',
-                    'TRANSPORTE',
-                    'SAUDE',
-                    'EDUCACAO',
-                    'MORADIA',
-                    'LAZER',
-                    'COMPRAS',
-                    'OUTROS',
-                  ]"
+                  :items="categories"
                 ></v-select>
               </v-col>
             </v-row>
@@ -67,11 +58,9 @@
 </template>
 
 <script>
-import { create_new_transaction } from "@/services/transaction";
 import { useTransactionStore } from "@/stores/transaction";
-import { useAuth } from "vue-auth3";
+import { income_categories, expense_categories } from "@/utils/categories";
 
-const auth = useAuth();
 const transactionStore = useTransactionStore();
 
 export default {
@@ -79,6 +68,13 @@ export default {
   computed: {
     title() {
       return this.tipo == "entrada" ? "Adicionar entrada" : "Adicionar saída";
+    },
+    categories() {
+      if (this.tipo == "entrada") {
+        return income_categories.map((category) => category.title);
+      } else {
+        return expense_categories.map((category) => category.title);
+      }
     },
   },
   data() {
