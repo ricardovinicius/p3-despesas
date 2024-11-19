@@ -5,9 +5,9 @@ export function login(auth, data) {
         email: data.email,
         password: data.password,
       },
-      redirect: "/dashboard",
+      redirect: "/",
       staySignedIn: true,
-      fetchUser: true
+      fetchUser: true,
     })
     .catch((error) => {
       if (error.response) {
