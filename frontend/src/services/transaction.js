@@ -46,7 +46,7 @@ export function create_new_transaction(auth, transaction, type) {
 export async function list_transactions(auth) {
   console.log(`${import.meta.env.VITE_API_URL}/transaction`);
   const res = await instance
-    .get(`/?user_id=${auth.user().id}`, {
+    .get(`?user_id=${auth.user().id}`, {
       headers: { Authorization: `Bearer ${auth.token()}` },
     })
     .catch((error) => {
