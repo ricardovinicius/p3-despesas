@@ -31,7 +31,7 @@ async def create_new_transaction(data: TransactionCreateSchema, transactionRepos
     )
     transactionRepository.add(transaction)
     
-@router.get("")
+@router.get("/")
 async def list_transactions(user_id: int, transactionRepository: TransactionRepositoryDep, 
                             credentials: JwtAuthorizationCredentials = Security(SecurityConfig.access_security)):
     if not credentials:
