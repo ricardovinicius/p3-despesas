@@ -22,41 +22,103 @@
       <v-row class="mt-0">
         <v-spacer></v-spacer>
         <v-col class="text-end" cols="2">
-          <p class="align-center" v-show="!cardEdit">
-            <v-icon icon="mdi-bullseye-arrow"></v-icon>
-            R$ {{ model.goal }}
-          </p>
+          <v-btn variant="text" @click="toggleEdit">
+            {{ cardEdit ? "Salvar" : "Editar" }}
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row v-if="cardEdit">
+        <v-col>
           <v-text-field
             label="Meta"
             prepend-icon="mdi-bullseye-arrow"
             density="compact"
             variant="outlined"
-            v-show="cardEdit"
             v-model="model.goal"
           ></v-text-field>
         </v-col>
       </v-row>
     </v-card-text>
-    <v-card-actions class="text-end">
-      <v-spacer></v-spacer>
-      <v-btn variant="text" @click="cardEdit = !cardEdit">
-        {{ cardEdit ? "Salvar" : "Editar" }}
-      </v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
 <script setup>
 import { ref } from "vue";
-
+import axios from "axios";
+import { useAuth } from "vue-auth3";
+import auth from "@/plugins/auth";
 
 const props = defineProps({
   model: {
     type: Object,
     required: true,
   },
+  token: {
+    type: String,
+    required: true,
+  },
 });
 
+console.log("props.model:", props.model);
+
+const emit = defineEmits(["update-goal"]);
 
 const cardEdit = ref(false);
+const loading = ref(false); // Estado de carregamento
+const model = ref({ ...props.model });
+
+const fetchGoal = async () => {
+  try {
+    const auth = useAuth();
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/goal/${model.value.name}?user_id=${auth.user().id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+        },
+      }
+    );
+
+    
+    model.value.goal = response.data.goal;
+  } catch (error) {
+    console.error("Erro ao buscar meta:", error);
+  }
+};
+
+onMounted(() => {
+  fetchGoal(); // Busca o valor inicial da meta ao montar o componente
+});
+
+const toggleEdit = async () => {
+  if (!cardEdit.value) {
+    // Entrando no modo de edição
+    cardEdit.value = true;
+    return;
+  }
+  // Salvando no banco de dados
+  loading.value = true;
+  try {
+    await axios.put(
+      `${import.meta.env.VITE_API_URL}/goal/${props.model.name}?user_id=${auth.user().id}`,
+      {
+        goal: model.value.goal,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${props.token}`,
+        },
+      }
+    );
+
+
+    // Emite o evento para notificar o componente pai
+    emit("update-goal", { ...props.model });
+  } catch (error) {
+    console.error("Erro ao atualizar meta:", error);
+  } finally {
+    loading.value = false;
+    cardEdit.value = false; // Sai do modo de edição
+  }
+};
 </script>
