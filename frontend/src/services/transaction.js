@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: `${import.meta.env.VITE_API_URL}/transaction`,
+  baseURL: `https://${import.meta.env.VITE_API_URL}/transaction`,
 });
 
 export function create_new_transaction(auth, transaction, type) {
@@ -44,6 +44,7 @@ export function create_new_transaction(auth, transaction, type) {
 }
 
 export async function list_transactions(auth) {
+  console.log(`${import.meta.env.VITE_API_URL}/transaction`);
   const res = await instance
     .get(`/?user_id=${auth.user().id}`, {
       headers: { Authorization: `Bearer ${auth.token()}` },
