@@ -1,5 +1,4 @@
 import datetime
-from enum import Enum
 from sqlmodel import Field, Relationship, SQLModel
 from src.models.user_model import User
 
