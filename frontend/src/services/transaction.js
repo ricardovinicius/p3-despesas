@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: `https://${import.meta.env.VITE_API_URL}/transaction`,
+  baseURL: `${import.meta.env.VITE_API_URL}/transaction`,
 });
 
 export function create_new_transaction(auth, transaction, type) {
