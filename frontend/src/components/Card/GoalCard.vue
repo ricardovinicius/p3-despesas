@@ -7,8 +7,14 @@
     <v-spacer></v-spacer>
     <v-card-text>
       <v-row>
-        <v-col><p>Valor Gasto: R$ {{ model.spend }}</p></v-col>
-        <v-col><p class="text-end">Resta: R$ {{ model.goal - model.spend }}</p></v-col>
+        <v-col
+          ><p>Valor Gasto: R$ {{ model.spend }}</p></v-col
+        >
+        <v-col
+          ><p class="text-end">
+            Resta: R$ {{ model.goal - model.spend }}
+          </p></v-col
+        >
       </v-row>
       <v-row class="mt-0">
         <v-slider
@@ -71,15 +77,16 @@ const fetchGoal = async () => {
   try {
     const auth = useAuth();
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/goal/${model.value.name}?user_id=${auth.user().id}`,
+      `${import.meta.env.VITE_API_URL}/goal/${model.value.name}?user_id=${
+        auth.user().id
+      }`,
       {
         headers: {
-          Authorization: `Bearer ${props.token}`,
+          Authorization: `Bearer ${auth.token()}`,
         },
       }
     );
 
-    
     model.value.goal = response.data.goal;
   } catch (error) {
     console.error("Erro ao buscar meta:", error);
@@ -100,7 +107,9 @@ const toggleEdit = async () => {
   loading.value = true;
   try {
     await axios.put(
-      `${import.meta.env.VITE_API_URL}/goal/${props.model.name}?user_id=${auth.user().id}`,
+      `${import.meta.env.VITE_API_URL}/goal/${props.model.name}?user_id=${
+        auth.user().id
+      }`,
       {
         goal: model.value.goal,
       },
@@ -110,7 +119,6 @@ const toggleEdit = async () => {
         },
       }
     );
-
 
     // Emite o evento para notificar o componente pai
     emit("update-goal", { ...props.model });

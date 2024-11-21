@@ -82,3 +82,10 @@ export default {
   },
 };
 </script>
+
+<route lang="yaml">
+  meta:
+    layout: new
+    auth: true
+  </route>
+  
