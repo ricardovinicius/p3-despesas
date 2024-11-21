@@ -3,4 +3,4 @@ sqlmodel
 fastapi-jwt[authlib]
 pydantic-settings
 bcrypt
-psycopg2
+psycopg2-binary
