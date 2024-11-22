@@ -22,6 +22,7 @@ import { computed } from "vue";
 import { useAuth } from "vue-auth3";
 import axios from "axios";
 import GoalCard from "@/components/Card/GoalCard.vue";
+import { useTransactionStore } from "@/stores/transaction";
 
 export default {
   components: { GoalCard },
@@ -51,14 +52,36 @@ export default {
         }
       );
 
-      const transactionSummary = transactionSummaryResponse.data;
-      const orderedGoals = transactionSummary.category_expenses.map((expense) => ({
+      const transactionStore = useTransactionStore();
+      transactionStore.selectedMonth = transactionStore.currentMonth;
+      await transactionStore.fetchItems(auth);
 
-        name: expense.category || "Desconhecido",
-        icon: this.getCategoryIcon(expense.category),
-        spend: expense.total || 0,
-        goal: 0, // Placeholder até que as metas sejam carregadas
-      }));
+      // const transactionSummary = transactionSummaryResponse.data;
+      const orderedGoals = [];
+      /*const orderedGoals = transactionStore.get_expense_per_category.map(
+        (expense) => ({
+          name: expense.category || "Desconhecido",
+          icon: this.getCategoryIcon(expense.category),
+          spend: expense.total || 0,
+          goal: 0, // Placeholder até que as metas sejam carregadas
+        })
+      );*/
+
+      for (let category in transactionStore.get_expense_per_category) {
+        orderedGoals.push({
+          name: category || "Desconhecido",
+          icon: this.getCategoryIcon(category),
+          spend: transactionStore.get_expense_per_category[category] || 0,
+          goal: 0, // Placeholder até que as metas sejam carregadas
+        });
+      }
+
+      this.totalCard = {
+        name: "Total",
+        icon: this.getCategoryIcon("Total"),
+        spend: transactionStore.get_current_expense,
+        goal: 0,
+      };
 
       this.categoryCards = orderedGoals;
     } catch (error) {
@@ -68,14 +91,15 @@ export default {
   methods: {
     getCategoryIcon(category) {
       const icons = {
-        Food: "mdi-food",
-        Transport: "mdi-car",
-        Health: "mdi-hospital",
-        Education: "mdi-school",
-        Housing: "mdi-home",
-        Leisure: "mdi-puzzle",
-        Shopping: "mdi-cart",
-        Others: "mdi-dots-horizontal",
+        Total: "mdi-cash",
+        Alimentação: "mdi-food",
+        Transporte: "mdi-car",
+        Saúde: "mdi-hospital",
+        Educação: "mdi-school",
+        Moradia: "mdi-home",
+        Lazer: "mdi-puzzle",
+        Compras: "mdi-cart",
+        Outros: "mdi-dots-horizontal",
       };
       return icons[category] || "mdi-help-circle";
     },
@@ -84,8 +108,7 @@ export default {
 </script>
 
 <route lang="yaml">
-  meta:
-    layout: new
-    auth: true
-  </route>
-  
+meta:
+  layout: new
+  auth: true
+</route>

@@ -21,7 +21,7 @@ export const useTransactionStore = defineStore("transaction", () => {
   ];
 
   const items = ref([]);
-  const currentMonth = months[new Date().getMonth()];
+  const currentMonth = ref(months[new Date().getMonth()]);
   const selectedMonth = ref(currentMonth);
 
   async function fetchItems(auth) {
@@ -228,6 +228,7 @@ export const useTransactionStore = defineStore("transaction", () => {
 
   return {
     items,
+    currentMonth,
     selectedMonth,
     fetchItems,
     addTransaction,
