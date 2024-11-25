@@ -5,7 +5,7 @@ from src.models.user_model import User
 from src.common.db import engine
 
 class IUserRepository():
-    def add(user: User) -> None:
+    def add(user: User) -> User:
         raise NotImplementedError
     
     def delete(user: User) -> None:
@@ -18,10 +18,13 @@ class IUserRepository():
         raise NotImplementedError
 
 class UserRepository(IUserRepository):
-    def add(self, user: User) -> None:
+    def add(self, user: User) -> User:
         with Session(engine) as session:
             session.add(user)
             session.commit()
+            session.refresh(user)
+            
+            return user
             
     def get_by_email_address(self, email) -> User:
         with Session(engine) as session:

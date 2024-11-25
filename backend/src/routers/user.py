@@ -1,3 +1,4 @@
+import re
 import bcrypt
 from fastapi import APIRouter, HTTPException, Security
 from fastapi_jwt import JwtAuthorizationCredentials
@@ -43,11 +44,22 @@ async def login(data: UserLoginSchema, userRepository: UserRepositoryDep, securi
     return {"token": access_token}
 
 @router.post("", status_code=201)
-async def create_new_user(data: UserCreateSchema, userRepository: UserRepositoryDep):
+async def create_new_user(data: UserCreateSchema, userRepository: UserRepositoryDep) -> UserPublicSchema:
     already_registred_user: User = userRepository.get_by_email_address(data.email)
     
+    regex_email = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+    
+    if data.name == None or len(data.name) <= 3:
+        raise HTTPException(status_code=422, detail="Nome inválido")
+    
+    if data.email == None or not re.fullmatch(regex_email, data.email):
+        raise HTTPException(status_code=422, detail="Email inválido")
+    
+    if data.password == None or len(data.password) <= 6:
+        raise HTTPException(status_code=422, detail="Senha inválida")
+    
     if already_registred_user:
-        raise HTTPException(status_code=422, detail="User with same email already registred")
+        raise HTTPException(status_code=422, detail="Usuário com mesmo email já cadastrado")
     
     password = data.password
     pwd_bytes = password.encode('utf-8')
@@ -56,7 +68,7 @@ async def create_new_user(data: UserCreateSchema, userRepository: UserRepository
     
     user = User(name=data.name, email=data.email, password=hash)
     
-    userRepository.add(user)
+    return userRepository.add(user)
 
 @router.get("/me")
 def read_current_user(userRepository: UserRepositoryDep,

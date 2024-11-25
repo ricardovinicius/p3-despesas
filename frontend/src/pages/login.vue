@@ -72,6 +72,9 @@
 
 <script>
 import { login } from "@/services/auth";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 export default {
   data() {
@@ -83,7 +86,34 @@ export default {
   },
   methods: {
     submitForm() {
-      login(this.$auth, { email: this.email, password: this.password });
+      this.$auth
+        .login({
+          data: {
+            email: this.email,
+            password: this.password,
+          },
+          redirect: "/",
+          staySignedIn: true,
+          fetchUser: true,
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+
+            toast.error("Email ou senha inválidos");
+          } else if (error.request) {
+            console.log(error.request);
+
+            toast.error("Erro no servidor");
+          } else {
+            console.log("Error", error.message);
+
+            toast.error("Erro no servidor");
+          }
+          console.log(error.config);
+        });
     },
     goToSignup() {
       this.$router.push("/signup"); // Corrigido: rota e nome do método

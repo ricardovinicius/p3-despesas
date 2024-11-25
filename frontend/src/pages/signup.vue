@@ -73,6 +73,9 @@
 
 <script>
 import { register } from "@/services/auth";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 export default {
   data() {
@@ -92,11 +95,31 @@ export default {
         this.email,
         this.password
       );
-      register(this.$auth, {
-        name: this.fullName,
-        email: this.email,
-        password: this.password,
-      });
+      this.$auth
+        .register({
+          data: {
+            name: this.fullName,
+            email: this.email,
+            password: this.password,
+          },
+          autoLogin: true,
+          redirect: "/",
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+
+            toast.error(error.response.data.detail);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log("Error", error.message);
+          }
+          console.log(error.config);
+        })
+
     },
     goToLogin() {
       this.$router.push("/login"); // Redireciona para a página de login
