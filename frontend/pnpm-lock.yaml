@@ -41,6 +41,9 @@ importers:
       vue-to-print:
         specifier: ^1.3.0
         version: 1.3.0(vue@3.5.1)
+      vue-toastification:
+        specifier: ^2.0.0-rc.5
+        version: 2.0.0-rc.5(vue@3.5.1)
       vuetify:
         specifier: ^3.6.11
         version: 3.7.1(vite-plugin-vuetify@2.0.4)(vue@3.5.1)
@@ -1879,6 +1882,11 @@ packages:
     resolution: {integrity: sha512-YmDuy4b6PR3phzAvIaWBQ7Idw2ZaNzQgYK0vg/7cGprCT7xCNP77QkRPKO3t4zwxiUBOZyi7O9qotHz6I3WE+w==}
     peerDependencies:
       vue: ^3.0.0
+
+  vue-toastification@2.0.0-rc.5:
+    resolution: {integrity: sha512-q73e5jy6gucEO/U+P48hqX+/qyXDozAGmaGgLFm5tXX4wJBcVsnGp4e/iJqlm9xzHETYOilUuwOUje2Qg1JdwA==}
+    peerDependencies:
+      vue: ^3.0.2
 
   vue@3.5.1:
     resolution: {integrity: sha512-k4UNnbPOEskodSxMtv+B9GljdB0C9ubZDOmW6vnXVGIfMqmEsY2+ohasjGguhGkMkrcP/oOrbH0dSD41x5JQFw==}
@@ -3829,6 +3837,10 @@ snapshots:
       vue: 3.5.1
 
   vue-to-print@1.3.0(vue@3.5.1):
+    dependencies:
+      vue: 3.5.1
+
+  vue-toastification@2.0.0-rc.5(vue@3.5.1):
     dependencies:
       vue: 3.5.1
 
