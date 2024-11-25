@@ -1,5 +1,5 @@
 <template>
-  <v-container ref="dashboardRef" class="pa-8" fluid>
+  <v-container class="pa-8" fluid>
     <v-row>
       <v-col cols="9">
         <p class="text-h4">Dashboard</p>
@@ -148,13 +148,12 @@ import { useAuth } from "vue-auth3";
 import { income_categories, expense_categories } from "@/utils/categories";
 import { useVueToPrint } from "vue-to-print";
 
-const dashboardRef = ref();
+const router = useRouter();
 
-const { handlePrint } = useVueToPrint({
-  content: dashboardRef,
-  documentTitle: "AwesomeFileName",
-  removeAfterPrint: true,
-});
+const newRoute = router.resolve({ name: "/report" });
+const handlePrint = () => {
+  window.open(newRoute.href, "_blank", "popup");
+};
 
 const transactionStore = useTransactionStore();
 const auth = useAuth();
@@ -218,6 +217,7 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { useRouter } from "vue-router";
 
 const datasets = computed(() => ({
   datasets: [

@@ -226,6 +226,20 @@ export const useTransactionStore = defineStore("transaction", () => {
     return expense_per_category;
   });
 
+  const get_selected_month_items = computed(() => {
+    const selected_month_int =
+      months.findIndex((m) => m === selectedMonth.value) + 1;
+    const current_year = new Date().getFullYear();
+    const selected_month_items = items.value.filter((i) => {
+      return (
+        i.data.split("-")[0] == current_year &&
+        i.data.split("-")[1] == selected_month_int
+      );
+    });
+
+    return selected_month_items;
+  })
+
   return {
     items,
     currentMonth,
@@ -239,5 +253,6 @@ export const useTransactionStore = defineStore("transaction", () => {
     get_last_expenses,
     get_month_balance,
     get_expense_per_category,
+    get_selected_month_items
   };
 });
