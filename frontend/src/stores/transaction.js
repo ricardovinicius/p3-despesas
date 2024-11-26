@@ -43,7 +43,7 @@ export const useTransactionStore = defineStore("transaction", () => {
     const _type = type === "entrada" ? "income" : "expense";
     console.log(transaction);
     create_new_transaction(auth, transaction, _type);
-    await fetchItems(auth);
+    setTimeout(await fetchItems(auth), 1000);
   }
 
   const get_current_balance = computed(() => {
