@@ -96,17 +96,6 @@
             </v-card>
           </v-col>
         </v-row>
-        <v-spacer></v-spacer>
-        <v-row>
-          <v-col>
-            <v-card class="fill-height">
-              <v-card-title>Balanço mensal </v-card-title>
-              <v-container style="height: 48dvh">
-                <Line ref="chart" :options="chartOptions" :data="datasets" />
-              </v-container>
-            </v-card>
-          </v-col>
-        </v-row>
         <v-row>
           <v-col>
             <v-card class="fill-height">
@@ -122,6 +111,17 @@
                   ) in transactionStore.get_expense_per_category"
                 ></v-list-item>
               </v-list>
+            </v-card>
+          </v-col>
+        </v-row>
+        <div style="break-before: page; "></div>
+        <v-row>
+          <v-col>
+            <v-card class="fill-height">
+              <v-card-title>Balanço mensal </v-card-title>
+              <v-container >
+                <Line ref="chart" style="height: 300px; width: 700px;" :options="chartOptions" :data="datasets" />
+              </v-container>
             </v-card>
           </v-col>
         </v-row>
@@ -141,7 +141,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, useTemplateRef } from "vue";
 import { useTransactionStore } from "@/stores/transaction";
 import { useAuth } from "vue-auth3";
 import { income_categories, expense_categories } from "@/utils/categories";
@@ -222,8 +222,9 @@ const datasets = computed(() => ({
 }));
 
 const chartOptions = ref({
-  responsive: true,
+  responsive: false,
   maintainAspectRatio: true,
+  
 });
 
 onBeforeMount(() => {
@@ -240,7 +241,6 @@ onBeforeMount(() => {
 });
 
 import { useVueToPrint } from "vue-to-print";
-import { onUpdated } from "vue";
 
 const reportRef = useTemplateRef("reportRef");
 
@@ -254,6 +254,10 @@ onMounted(async () => {
   await transactionStore.fetchItems(auth);
   adjustMonths();
   console.log(transactionStore.get_month_balance);
-  handlePrint();
+
+
+  setTimeout(() => {
+    handlePrint();
+  }, 1000)
 });
 </script>
